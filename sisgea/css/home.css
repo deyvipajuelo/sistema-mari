@@ -1,0 +1,32 @@
+.header {
+    background: url(../img/csjancash.JPG) no-repeat center;
+    background-size: cover;
+    min-height: 100vh;
+    
+  }
+  .header .navbar {
+    background-color: transparent !important;
+  }
+  nav.navbar ul.nav li {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+  .navbar-light .navbar-nav .nav-link {
+  color: orange;
+  }
+  a:hover {
+    color:#bbbbce !important
+  }
+  
+  ul.login {
+    float: left; }
+
+    #footercito {
+        background-color: #f0060679;
+        position: absolute;
+        display: inline-block;
+        bottom: 0;
+        width: 100%;
+        height: auto;
+        color: white;
+      }
+  

@@ -1,0 +1,3 @@
+DIMESION: 800X600 (LargoXAltura)
+FORMATO: JPG
+NOMBRE DE IMAGEN: portfolio-1
