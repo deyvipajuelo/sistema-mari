@@ -403,6 +403,7 @@ class BuscarController extends Controller
         if(!$request->ajax()) return redirect('/');
         $fecha_inicio=$request->fecha_inicio;
         $fecha_fin=$request->fecha_fin;
+        $usuario=$request->usuario;
         
         if($fecha_inicio==$fecha_fin){
             //dd('XD');
@@ -418,7 +419,7 @@ class BuscarController extends Controller
             date_format(date(e.created_at),"%d/%m/%Y") as fecha_registro,l.nombre as nombre_local,e.anaquel,e.paquete
             from ingresos ing,expedientes e,especialidades es,instancia_judiciales i,tipo_archivos t,locales l
             where i.id=ing.idijudicial and ing.id=e.idingreso and es.id=e.idespecialidad and t.id=e.idtarchivo
-            and l.id=e.idlocal and e.verificado=1 and e.condicion=1 
+            and l.id=e.idlocal and e.verificado=1 and e.condicion=1 and ing.idusuario like '."'". $usuario ."'".'
             and date(e.created_at) ='."'".$fecha_inicio."'".' order by  date(e.created_at) asc) t
              order by t.numero_ingreso asc) f
              cross join (select @i := 0) m');
@@ -434,7 +435,7 @@ class BuscarController extends Controller
             e.anaquel,e.paquete from ingresos ing,expedientes e,especialidades es,instancia_judiciales i,
             tipo_archivos t,locales l where i.id=ing.idijudicial and ing.id=e.idingreso 
             and es.id=e.idespecialidad and t.id=e.idtarchivo and l.id=e.idlocal and e.verificado=1 
-            and e.condicion=1 and date(e.created_at) between '."'".$fecha_inicio."'".' and '."'".$fecha_fin."'".' 
+            and e.condicion=1 and ing.idusuario like '."'". $usuario ."'".' and date(e.created_at) between '."'".$fecha_inicio."'".' and '."'".$fecha_fin."'".' 
             order by date(e.created_at) asc) t order by t.numero_ingreso asc) f 
             cross join (select @i := 0) m');
         }

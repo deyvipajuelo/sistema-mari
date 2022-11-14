@@ -10,7 +10,7 @@
             <!-- Ejemplo de tabla Listado -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Reporte de ingresossssss
+                    <i class="fa fa-align-justify"></i> Reporte de ingresos
                 </div>
                 <!-- LISTADO -->
             <template v-if="listado==1">
@@ -38,9 +38,15 @@
                                                 <label>Al:</label>&nbsp;&nbsp;
                                                 <input type="date" class="form-control" v-model="fecha_fin">&nbsp;&nbsp;
                                                 <label>Usuario:</label>&nbsp;&nbsp;
-                                                <select>
-                                                    <option v-for="item in array">{{ item }}</option>
-                                                </select>
+                                                <select v-model="usuario">
+                                                    <option value='%'>VER TODO</option>
+                                                    <option value='1'>ADMIN</option>
+                                                    <option value='2'>CRAMIREZM</option>
+                                                    <option value='3'>JVILLANUEVAT</option>
+                                                    <option value='4'>MCHINCHAYH</option>
+                                                    <option value='5'>ETORRESR</option>
+                                                    <!-- <option v-for="item in array">{{ item }}</option> -->
+                                                </select>&nbsp;
                                                 <button type="submit" class="btn btn-default col-2" @click="buscarRegistro()">
                                                 <i class="fa fa-search"></i>
                                                 </button>
@@ -223,6 +229,7 @@
                 estado: '',
                 fecha_sistema: '',
                 fecha_completa: '',
+                usuario: '%',
 
                 fecha_inicio:'',
                 fecha_fin:'',
@@ -294,10 +301,10 @@
             axios.get(url,{
                 params: {
                     'fecha_inicio': this.fecha_inicio,
-                    'fecha_fin': this.fecha_fin
+                    'fecha_fin': this.fecha_fin,
+                    'usuario': this.usuario
                 }
             }).then(function (response) {
-                //console.log(response.data);
                 me.inicializarPaginacion();
                 me.arrayListado=response.data.consulta;
                 me.totalRegistro =me.arrayListado.length;
@@ -434,7 +441,8 @@
             let me=this;
                 var url=me.ruta + '/user/obtenerPersona/';
                 axios.get(url).then(function (response) {
-                   // console.log(response);
+                   console.log(response);
+                   debugger
                     var respuesta=response.data;
                     me.arrayUsuario = respuesta.personas;
                     me.idresponsable=me.arrayUsuario[0].idpersona; 
@@ -454,9 +462,8 @@
        
         },
         mounted() {
-           
-            this.obtenerUsuario();
-            //this.listarConsulta(1);
+            // this.obtenerUsuario();
+            // this.listarConsulta(1);
 
             
 
