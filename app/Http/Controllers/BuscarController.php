@@ -444,6 +444,11 @@ class BuscarController extends Controller
         //dd($rpta);
         return ['consulta' =>$rpta];
     }
+
+    public function getAllUsers(){
+        $users=DB::select('select id, usuario from users');
+        return ['usuarios' =>$users];
+    }
         // obtener total de consulta anterior
     public function totalIngresoPorFecha(Request $request){
         if(!$request->ajax()) return redirect('/');

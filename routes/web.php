@@ -426,6 +426,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('/consulta/ingresoPorFecha',[BuscarController::class, 'consultaIngresoPorFecha']);
     Route::get('/consulta/totalIngresoPorFecha',[BuscarController::class, 'totalIngresoPorFecha']);
     Route::get('/consulta/ingresoPorFechaResumen',[BuscarController::class, 'consultaIngresoPorFechaResumen']);
+    Route::get('/consulta/getAllUsers',[BuscarController::class, 'getAllUsers']);
     Route::get('/reporte/ubicacion/{anaquel}/{paquete}',[BuscarController::class, 'reporteUbicacion']);
 
     Route::get('/legajo',[LegajoController::class, 'index']);

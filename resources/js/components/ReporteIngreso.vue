@@ -39,16 +39,14 @@
                                                 <input type="date" class="form-control" v-model="fecha_fin">&nbsp;&nbsp;
                                                 <label>Usuario:</label>&nbsp;&nbsp;
                                                 <select v-model="usuario">
-                                                    <option value='%'>VER TODO</option>
-                                                    <option value='1'>ADMIN</option>
-                                                    <option value='2'>CRAMIREZM</option>
-                                                    <option value='3'>JVILLANUEVAT</option>
-                                                    <option value='4'>MCHINCHAYH</option>
-                                                    <option value='5'>ETORRESR</option>
-                                                    <!-- <option v-for="item in array">{{ item }}</option> -->
-                                                </select>&nbsp;
+                                                    <option value='%' selected>VER TODO</option>
+                                                    <option v-for="(lista,index) in getUsuarios" :value="lista.id">{{lista.usuario}}</option>
+                                                </select>&nbsp;&nbsp;
                                                 <button type="submit" class="btn btn-default col-2" @click="buscarRegistro()">
                                                 <i class="fa fa-search"></i>
+                                                </button>&nbsp;
+                                                <button type="submit" class="btn btn-success col-2" @click="verReporte()">
+                                                <i class="fa fa-file-pdf-o"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -230,6 +228,7 @@
                 fecha_sistema: '',
                 fecha_completa: '',
                 usuario: '%',
+                usuarios: [],
 
                 fecha_inicio:'',
                 fecha_fin:'',
@@ -291,6 +290,9 @@
                 count++;
                 }
                 return pagesArray;
+            },
+            getUsuarios(){
+                return this.usuarios;
             }
         },
         methods : {
@@ -308,6 +310,31 @@
                 me.inicializarPaginacion();
                 me.arrayListado=response.data.consulta;
                 me.totalRegistro =me.arrayListado.length;
+                //var respuesta=response.data;
+               // me.arrayListado = respuesta.consultas.data;
+               // me.pagination=respuesta.pagination;
+                
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        getUsers(){
+            let me = this;
+            var url=me.ruta + '/consulta/getAllUsers';
+            axios.get(url,{
+                params: {
+                }
+            }).then(function (response) {
+                // console.log(response.data['usuarios']);
+                // console.log(response);
+                // debugger
+                me.usuarios=response.data['usuarios'];
+                // this.usuarios=response.data['usuarios'];
+                // me.inicializarPaginacion();
+                // me.arrayListado=response.data.consulta;
+                // me.totalRegistro =me.arrayListado.length;
                 //var respuesta=response.data;
                // me.arrayListado = respuesta.consultas.data;
                // me.pagination=respuesta.pagination;
@@ -464,7 +491,7 @@
         mounted() {
             // this.obtenerUsuario();
             // this.listarConsulta(1);
-
+            this.getUsers();
             
 
         }
