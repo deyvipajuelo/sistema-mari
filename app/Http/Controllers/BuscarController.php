@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ingreso;
 use App\Models\Expediente;
+use PDF;
 
 
 use Illuminate\Support\Facades\DB;
@@ -448,6 +449,51 @@ class BuscarController extends Controller
     public function getAllUsers(){
         $users=DB::select('select id, usuario from users');
         return ['usuarios' =>$users];
+    }
+    public function reporteIngresos(Request $request){
+        // if(!$request->ajax()) return redirect('/reporte/ingresos');
+        $fecha_inicio=$request->fecha_inicio;
+        $fecha_fin=$request->fecha_fin;
+        $usuario=$request->usuario;
+        
+        if($fecha_inicio==$fecha_fin){
+            
+            $items=DB::select('SELECT @i := @i + 1 as contador,f.numero_ingreso,f.codigo,f.expediente,
+            f.instancia,f.especialidad,f.tipoarchivo,
+                        f.fecha_registro,f.nombre_local,f.anaquel,f.paquete
+            FROM
+            (SELECT t.numero_ingreso,t.codigo,t.expediente,t.instancia,t.especialidad,t.tipoarchivo,
+                        t.fecha_registro,t.nombre_local,t.anaquel,t.paquete
+                        FROM(
+            select ing.numero_ingreso,e.codigo,concat(e.anio_expediente,"-",e.numero_expediente) as expediente,
+            es.nombre as especialidad,i.nombre as instancia,t.nombre as tipoarchivo,
+            date_format(date(e.created_at),"%d/%m/%Y") as fecha_registro,l.nombre as nombre_local,e.anaquel,e.paquete
+            from ingresos ing,expedientes e,especialidades es,instancia_judiciales i,tipo_archivos t,locales l
+            where i.id=ing.idijudicial and ing.id=e.idingreso and es.id=e.idespecialidad and t.id=e.idtarchivo
+            and l.id=e.idlocal and e.verificado=1 and e.condicion=1 and ing.idusuario like '."'". $usuario ."'".'
+            and date(e.created_at) ='."'".$fecha_inicio."'".' order by  date(e.created_at) asc) t
+             order by t.numero_ingreso asc) f
+             cross join (select @i := 0) m');
+        }else{
+            $items=DB::select('SELECT @i := @i + 1 as contador,f.numero_ingreso,f.codigo,f.expediente,
+            f.instancia,f.especialidad,f.tipoarchivo,
+                        f.fecha_registro,f.nombre_local,f.anaquel,f.paquete 
+            FROM (SELECT t.numero_ingreso,t.codigo,t.expediente,t.instancia,t.especialidad,t.tipoarchivo, 
+            t.fecha_registro,t.nombre_local,t.anaquel,t.paquete 
+            FROM( select ing.numero_ingreso,e.codigo,concat(e.anio_expediente,"-",e.numero_expediente) as expediente, 
+            es.nombre as especialidad,i.nombre as instancia,t.nombre as tipoarchivo, 
+            date_format(date(e.created_at),"%d/%m/%Y") as fecha_registro,l.nombre as nombre_local,
+            e.anaquel,e.paquete from ingresos ing,expedientes e,especialidades es,instancia_judiciales i,
+            tipo_archivos t,locales l where i.id=ing.idijudicial and ing.id=e.idingreso 
+            and es.id=e.idespecialidad and t.id=e.idtarchivo and l.id=e.idlocal and e.verificado=1 
+            and e.condicion=1 and ing.idusuario like '."'". $usuario ."'".' and date(e.created_at) between '."'".$fecha_inicio."'".' and '."'".$fecha_fin."'".' 
+            order by date(e.created_at) asc) t order by t.numero_ingreso asc) f 
+            cross join (select @i := 0) m');
+        }
+
+        $pdf = PDF::loadView('pdf.reporteIngresos', compact('items'));
+        $pdf->setPaper('A4', 'landscape');;
+        return $pdf->stream();
     }
         // obtener total de consulta anterior
     public function totalIngresoPorFecha(Request $request){

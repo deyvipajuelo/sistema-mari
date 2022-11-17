@@ -34,18 +34,20 @@
                                         <div class="col-md-12">
                                             <div class="input-group">
                                                 <label>Del:</label>&nbsp;&nbsp;
-                                                <input type="date" class="form-control" v-model="fecha_inicio">&nbsp;
+                                                <input type="date" class="form-control" v-model="fecha_inicio" form="form_reporte" name="fecha_inicio">&nbsp;
                                                 <label>Al:</label>&nbsp;&nbsp;
-                                                <input type="date" class="form-control" v-model="fecha_fin">&nbsp;&nbsp;
+                                                <input type="date" class="form-control" v-model="fecha_fin" form="form_reporte" name="fecha_fin">&nbsp;&nbsp;
                                                 <label>Usuario:</label>&nbsp;&nbsp;
-                                                <select v-model="usuario">
+                                                <select v-model="usuario" form="form_reporte" name="usuario">
                                                     <option value='%' selected>VER TODO</option>
                                                     <option v-for="(lista,index) in getUsuarios" :value="lista.id">{{lista.usuario}}</option>
                                                 </select>&nbsp;&nbsp;
                                                 <button type="submit" class="btn btn-default col-2" @click="buscarRegistro()">
                                                 <i class="fa fa-search"></i>
                                                 </button>&nbsp;
-                                                <button type="submit" class="btn btn-success col-2" @click="verReporte()">
+                                                <form action="reporte/ingresos" id="form_reporte" target="_blank">
+                                                </form>
+                                                <button type="submit" class="btn btn-success col-2" v-on:click="verReporte" form="form_reporte">
                                                 <i class="fa fa-file-pdf-o"></i>
                                                 </button>
                                             </div>
@@ -330,20 +332,42 @@
                 // console.log(response.data['usuarios']);
                 // console.log(response);
                 // debugger
-                me.usuarios=response.data['usuarios'];
-                // this.usuarios=response.data['usuarios'];
-                // me.inicializarPaginacion();
-                // me.arrayListado=response.data.consulta;
-                // me.totalRegistro =me.arrayListado.length;
-                //var respuesta=response.data;
-               // me.arrayListado = respuesta.consultas.data;
-               // me.pagination=respuesta.pagination;
-                
+                me.usuarios=response.data['usuarios'];  
                 
             })
             .catch(function (error) {
                 console.log(error);
             });
+        },
+        verReporte(event){
+            // console.log(event);
+            // debugger
+            if (this.fecha_inicio !== '' && this.fecha_fin !== '') {
+                let formulario = document.getElementById('form_reporte');
+                    
+                
+                // let me = this;
+                // var url=me.ruta + '/reporte/ingresos';
+                // axios.get(url,{
+                //     params: {
+                //         'fecha_inicio': this.fecha_inicio,
+                //         'fecha_fin': this.fecha_fin,
+                //         'usuario': this.usuario
+                //     }
+                // }).then(function (response) {
+                    // console.log(response);
+                    // // debugger
+                    // window.open(`reporte/ingresos?fecha_inicio=${this.fecha_inicio}&fecha_fin=${this.fecha_fin}&usuario=${this.usuario}`);
+                    // console.log(response.data['usuarios']);
+                    // console.log(response);
+                    // debugger
+                    // me.usuarios=response.data['usuarios'];
+                    
+                // })
+                // .catch(function (error) {
+                //     console.log(error);
+                // });
+            }
         },
         nextPage(){
         this.pageNumber++;

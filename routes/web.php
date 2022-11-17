@@ -296,7 +296,9 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/consulta/ingresoPorFecha',[BuscarController::class, 'consultaIngresoPorFecha']);
         Route::get('/consulta/totalIngresoPorFecha',[BuscarController::class, 'totalIngresoPorFecha']);
         Route::get('/consulta/ingresoPorFechaResumen',[BuscarController::class, 'consultaIngresoPorFechaResumen']);
+        Route::get('/consulta/getAllUsers',[BuscarController::class, 'getAllUsers']);
         Route::get('/reporte/ubicacion/{anaquel}/{paquete}',[BuscarController::class, 'reporteUbicacion']);
+        Route::get('/reporte/ingresos',[BuscarController::class, 'reporteIngresos']);
 
         Route::get('/legajo',[LegajoController::class, 'index']);
         Route::post('/legajo/registrar',[LegajoController::class, 'store']);
@@ -428,6 +430,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('/consulta/ingresoPorFechaResumen',[BuscarController::class, 'consultaIngresoPorFechaResumen']);
     Route::get('/consulta/getAllUsers',[BuscarController::class, 'getAllUsers']);
     Route::get('/reporte/ubicacion/{anaquel}/{paquete}',[BuscarController::class, 'reporteUbicacion']);
+    Route::get('/reporte/ingresos',[BuscarController::class, 'reporteIngresos']);
 
     Route::get('/legajo',[LegajoController::class, 'index']);
     Route::post('/legajo/registrar',[LegajoController::class, 'store']);
