@@ -11,13 +11,13 @@
                 <div class="card">
                    <div class="card-header">
                         <i class="fa fa-align-justify"></i> Desarchivar Expediente
-                        <button type="button"  @click="abrirModal('modal','registrar')" class="btn btn-secondary">
+                        <button type="button"  @click="abrirModal('modal','registrar')" v-if="idusuario==1" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="input-group">
                                         <select class="form-control col-md-4" v-model="criterio">
                                             <option value="numero_expediente">Numero</option>
@@ -25,7 +25,16 @@
                                                 
                                         </select>
                                         <input type="text" v-model="buscar" @keyup.enter="listarRegistro(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                        <button type="submit" @click="listarRegistro(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                        <button type="submit" @click="listarRegistro(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label>Del:</label>&nbsp;&nbsp;
+                                        <input type="date" class="form-control" v-model="fecha_inicio" form="form_reporte" name="fecha_inicio">&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label>Al:</label>&nbsp;&nbsp;
+                                        <input type="date" class="form-control" v-model="fecha_fin" form="form_reporte" name="fecha_fin">&nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-success col-2" v-on:click="verReporte" form="form_reporte">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                        </button>
+                                        <form action="reporte/desarchivados" id="form_reporte" target="_blank">
+                                        </form>
                                     </div>
                                 </div>
                         </div>
@@ -262,6 +271,8 @@
                 arrayUsuario: [],
                 fecha_sistema: '',
                 fecha_completa: '',
+                fecha_inicio: '',
+                fecha_fin: '',
                 // variables para busqueda de exp en mmodal
                 arrayExpediente:[],
                 errorModal: 0,
@@ -330,6 +341,13 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+            },
+            verReporte (event){
+                event.preventDefault();
+                if (this.fecha_inicio !== '' && this.fecha_fin !== '') {
+                    let formulario = document.getElementById('form_reporte');
+                    formulario.submit();
+                }
             },
             nextPage(){
                 this.pageNumber++;
@@ -545,7 +563,6 @@
             let me=this;
                 var url=me.ruta + '/user/obtenerPersona/';
                 axios.get(url).then(function (response) {
-                   // console.log(response);
                     var respuesta=response.data;
                     me.arrayUsuario = respuesta.personas;
                     me.idresponsable=me.arrayUsuario[0].idpersona; 

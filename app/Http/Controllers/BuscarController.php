@@ -492,7 +492,7 @@ class BuscarController extends Controller
         }
 
         $pdf = PDF::loadView('pdf.reporteIngresos', compact('items'));
-        $pdf->setPaper('A4', 'landscape');;
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream();
     }
         // obtener total de consulta anterior

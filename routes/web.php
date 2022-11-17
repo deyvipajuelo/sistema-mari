@@ -448,6 +448,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('/desarchivar',[ExpedienteArchivadoController::class, 'index']);
     Route::post('/desarchivar/registrar',[ExpedienteArchivadoController::class, 'store']);
     Route::put('/desarchivar/actualizar',[ExpedienteArchivadoController::class, 'update']);
+    Route::get('/reporte/desarchivados',[ExpedienteArchivadoController::class, 'reporteDesarchivados']);
 
     
 

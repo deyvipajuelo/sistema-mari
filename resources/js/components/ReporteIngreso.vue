@@ -340,33 +340,10 @@
             });
         },
         verReporte(event){
-            // console.log(event);
-            // debugger
+            event.preventDefault();
             if (this.fecha_inicio !== '' && this.fecha_fin !== '') {
                 let formulario = document.getElementById('form_reporte');
-                    
-                
-                // let me = this;
-                // var url=me.ruta + '/reporte/ingresos';
-                // axios.get(url,{
-                //     params: {
-                //         'fecha_inicio': this.fecha_inicio,
-                //         'fecha_fin': this.fecha_fin,
-                //         'usuario': this.usuario
-                //     }
-                // }).then(function (response) {
-                    // console.log(response);
-                    // // debugger
-                    // window.open(`reporte/ingresos?fecha_inicio=${this.fecha_inicio}&fecha_fin=${this.fecha_fin}&usuario=${this.usuario}`);
-                    // console.log(response.data['usuarios']);
-                    // console.log(response);
-                    // debugger
-                    // me.usuarios=response.data['usuarios'];
-                    
-                // })
-                // .catch(function (error) {
-                //     console.log(error);
-                // });
+                formulario.submit();
             }
         },
         nextPage(){
@@ -492,8 +469,6 @@
             let me=this;
                 var url=me.ruta + '/user/obtenerPersona/';
                 axios.get(url).then(function (response) {
-                   console.log(response);
-                   debugger
                     var respuesta=response.data;
                     me.arrayUsuario = respuesta.personas;
                     me.idresponsable=me.arrayUsuario[0].idpersona; 
