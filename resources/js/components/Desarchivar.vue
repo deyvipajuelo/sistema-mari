@@ -188,7 +188,7 @@
                             <tbody v-if="arrayExpediente.length">
                                 <tr v-for="lista in arrayExpediente" :key="lista.id">
                                     <td>
-                                      <input v-if="lista.idestado==1" type="radio" :value="lista.idexpediente" v-on:click="setDatos" v-model="picked" :data-anaquel="lista.anaquel" :data-paquete="lista.paquete" :data-demandado="lista.parteprocesal.substring(lista.parteprocesal.indexOf('DDO:', 0) + 5, lista.parteprocesal.indexOf('DTE:', 0))">
+                                      <input v-if="lista.idestado==1" type="radio" :value="lista.idexpediente" v-on:click="setDatos" v-model="picked" :data-anaquel="lista.anaquel" :data-paquete="lista.paquete" :data-demandado="(lista.parteprocesal.indexOf('DDO:') < lista.parteprocesal.indexOf('DTE:')) ? lista.parteprocesal.substring(lista.parteprocesal.indexOf('DDO:', 0) + 5, lista.parteprocesal.indexOf('DTE:', 0)) : lista.parteprocesal.substring(lista.parteprocesal.indexOf('DDO:', 0) + 5)">
                                       <input v-else type="radio" :value="lista.idexpediente"  disabled>
                                     </td>
                                     <td v-text="lista.numero_ingreso"></td>
