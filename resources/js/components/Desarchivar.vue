@@ -221,13 +221,13 @@
                     <span class="badge badge-info col-md-12">Acción</span>
                 </div>
                      <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label class="col-md-3 form-control-label" for="text-input">Motivo</label>
                             <div class="col-md-9">
                                 <textarea class="form-control" rows="3" placeholder="Ingrese motivo" v-model="motivo_expediente"></textarea>
                                 
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row">
                             <label class="col-md-3 form-control-label" for="text-input">Estado</label>
                             <div class="col-md-9">
@@ -386,8 +386,6 @@
                 });
             },
             verOficio(event){
-                console.log(event);
-                debugger
                 let formulario = event.target.closest("td").firstElementChild;
                 formulario.submit();
             },
@@ -500,7 +498,7 @@
             this.errorRegistro=0;
             this.errorMostrarMsjRegistro=[];
             if(this.picked==0) this.errorMostrarMsjRegistro.push("Seleccione un expediente de la lista");
-            if(!this.motivo_expediente) this.errorMostrarMsjRegistro.push("Se requiere un motivo");
+            // if(!this.motivo_expediente) this.errorMostrarMsjRegistro.push("Se requiere un motivo");
             if(!this.idestado) this.errorMostrarMsjRegistro.push("Seleccione un estado");
             if(this.idestado==1) this.errorMostrarMsjRegistro.push("Seleccione estado 'Desarchivado'");
             if(this.errorMostrarMsjRegistro.length) this.errorRegistro=1;
