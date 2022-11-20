@@ -11,7 +11,7 @@
                 <div class="card">
                    <div class="card-header">
                         <i class="fa fa-align-justify"></i> Desarchivar Expediente
-                        <button type="button"  @click="abrirModal('modal','registrar')" v-if="idusuario==1" class="btn btn-secondary">
+                        <button type="button"  @click="abrirModal('modal','registrar')" v-if="idusuario==1 || idusuario==2" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -50,6 +50,7 @@
                                 <th>Motivo</th>
                                 <th>Estado</th>
                                 <th>Fecha</th>
+                                <th>Oficio</th>
                             </tr>
                         </thead>
                         <tbody v-if="arrayListado.length">
@@ -77,6 +78,12 @@
                                     <span class="badge badge-danger">{{registro.estado}}</span>
                                 </td>
                                 <td v-text="registro.created_at"></td>
+                                <td>
+                                    <form action="reporte/getOficio" id="form_reporte_oficio" target="_blank">
+                                        <input type="hidden" :value="registro.idexpediente" name="id_expediente"></input>
+                                    </form>
+                                    <button class="btn btn-success"><i class="fa fa-download" type="submit" form="form_reporte_oficio" v-on:click="verOficio"></i></button>
+                                </td>
                                
                             </tr>
                         </tbody>
@@ -181,7 +188,7 @@
                             <tbody v-if="arrayExpediente.length">
                                 <tr v-for="lista in arrayExpediente" :key="lista.id">
                                     <td>
-                                      <input v-if="lista.idestado==1" type="radio" :value="lista.idexpediente" v-model="picked">
+                                      <input v-if="lista.idestado==1" type="radio" :value="lista.idexpediente" v-on:click="setDatos" v-model="picked" :data-anaquel="lista.anaquel" :data-paquete="lista.paquete" :data-demandado="lista.parteprocesal.substring(lista.parteprocesal.indexOf('DDO:', 0) + 5, lista.parteprocesal.indexOf('DTE:', 0))">
                                       <input v-else type="radio" :value="lista.idexpediente"  disabled>
                                     </td>
                                     <td v-text="lista.numero_ingreso"></td>
@@ -209,10 +216,10 @@
                             </tbody>  
                         </table>
                     </div>
+                <template v-if="condicion_buscar">
                 <div class="form-group row">
                     <span class="badge badge-info col-md-12">Acción</span>
                 </div>
-                <template v-if="condicion_buscar">
                      <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <div class="form-group row">
                             <label class="col-md-3 form-control-label" for="text-input">Motivo</label>
@@ -235,6 +242,34 @@
                                 <div v-for="error in errorMostrarMsjRegistro" :key="error" v-text="error">
 
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <span class="badge badge-info col-md-12">Datos para oficio</span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Oficio N°</label>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Ingrese el numero de oficio" class="form-control" v-model="num_oficio">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Jefe</label>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Ingrese el nombre del Jefe de ODECMA" class="form-control" v-model="jefe">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Ref.:</label>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Ingrese la Ref." class="form-control" v-model="ref">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Ingreso expediente:</label>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Ingrese el expediente" class="form-control" v-model="queja">
                             </div>
                         </div>
                     </form>
@@ -295,7 +330,15 @@
                 errorMostrarMsjRegistro: [],
                 
                 criterio: 'numero_expediente',
-                buscar: ''   
+                buscar: '',
+
+                num_oficio: '',
+                jefe: '',
+                ref: '',
+                queja: '',
+                demandado: '',
+                anaquel: '',
+                paquete: ''
                 
             }
         },
@@ -341,6 +384,12 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+            },
+            verOficio(event){
+                console.log(event);
+                debugger
+                let formulario = event.target.closest("td").firstElementChild;
+                formulario.submit();
             },
             verReporte (event){
                 event.preventDefault();
@@ -390,6 +439,11 @@
                                     this.idestado= 2;
                                     this.condicion_buscar=0;
                                     this.arrayExpediente.length=0;
+
+                                    this.num_oficio='';
+                                    this.jefe='';
+                                    this.ref='';
+                                    this.queja='';
                                     break;
                                 }
                             case 'actualizar':
@@ -409,28 +463,30 @@
             },
             buscarExpediente(){
                 let me=this; 
-            if(this.validarBuscarModal()){
-                return;
-            }
-            else{
-                me.arrayExpediente.length=0;
-                var ani=me.anio_expediente;
-                var num=me.numero_expediente;
-                var url=me.ruta + '/consulta/consultaExpediente?anio='+ani+'&numero='+num;
-                axios.get(url).then(function (response) {
-                    var respuesta=response.data;
-                    me.arrayExpediente = respuesta.consulta;
-                    if(me.arrayExpediente.length>0){
-                        me.condicion_buscar=1;
-                    }else{
+                if(this.validarBuscarModal()){
+                    return;
+                }
+                else{
+                    me.arrayExpediente.length=0;
+                    var ani=me.anio_expediente;
+                    var num=me.numero_expediente;
+                    var url=me.ruta + '/consulta/consultaExpediente?anio='+ani+'&numero='+num;
+                    axios.get(url).then(function (response) {
+                        var respuesta=response.data;
+                        me.arrayExpediente = respuesta.consulta;
+                        if(me.arrayExpediente.length>0){
+                            me.condicion_buscar=1;
+                        }else{
+                        me.condicion_buscar=0; 
                        me.condicion_buscar=0; 
-                    }
-                    
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            }
+                        me.condicion_buscar=0; 
+                        }
+                        
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }
             },
             validarBuscarModal(){
                 this.errorModal=0;
@@ -470,12 +526,20 @@
                 if(this.validarRegistro()){
                     return;
                 }
-
+                
                 let me = this;
                 axios.post(me.ruta + '/desarchivar/registrar',{
                     'idexpediente': this.picked,
                     'idestado': this.idestado,
-                    'motivo': this.motivo_expediente
+                    'motivo': this.motivo_expediente,
+
+                    'anaquel': this.anaquel,
+                    'paquete': this.paquete,
+                    'demandado': this.demandado,
+                    'num_oficio': 'OFICIO N° ' + this.num_oficio + '-ac-USJ-GAD-CSJAN/PJ',
+                    'jefe': this.jefe,
+                    'ref': this.ref,
+                    'queja': this.queja
  
                 }).then(function(response){
                     me.actualizarExpediente();
@@ -483,6 +547,12 @@
                 }).catch(function(error){
                     console.log(error);
                 });
+            },
+            setDatos(event){
+
+                this.anaquel = event.target.dataset.anaquel;
+                this.paquete = event.target.dataset.paquete;
+                this.demandado = event.target.dataset.demandado;
             },
             actualizarExpediente(){
                 let me=this;

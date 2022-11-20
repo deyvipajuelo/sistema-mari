@@ -42,7 +42,8 @@ class BuscarController extends Controller
         $numero=$request->numero;
         $consulta= DB::select('select e.idingreso,e.id as idexpediente,e.codigo, concat(e.anio_expediente,"-",e.numero_expediente) as expediente,
         te.nombre as tipoexpediente,i.nombre as instancia,ing.numero_ingreso,e.idestado,
-        l.nombre as direccion,e.anaquel,e.paquete,es.nombre as estado,pprocesales.id,pprocesales.parteprocesal,e.condicion
+        l.nombre as direccion,e.anaquel,e.paquete,es.nombre as estado,pprocesales.id,pprocesales.parteprocesal,e.condicion,e.numero_expediente,
+        e.anio_expediente
         from expedientes e,ingresos ing, instancia_judiciales i,locales l,estados es,tipo_expedientes te,
         (select persona.id,concat(materia,"\n",persona) as parteprocesal  from
         (select e.id as id, group_concat(if(pp.nombre="Demandante", "DTE", "DDO"),": ",dp.apellido," ",dp.nombre SEPARATOR "\n")  as persona

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ExpedienteArchivado;
+use App\Models\Oficios;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use PDF;
@@ -73,6 +74,17 @@ class ExpedienteArchivadoController extends Controller
         $registro->idusuario=Auth::id();
         $registro->condicion='1';
         $registro->save();
+
+        $oficio = new Oficios();
+        $oficio->id_expediente = $request->idexpediente;
+        $oficio->numero_oficio = $request->num_oficio;
+        $oficio->jefe = $request->jefe;
+        $oficio->ref = $request->ref;
+        $oficio->queja = $request->queja;
+        $oficio->demandado = $request->demandado;
+        $oficio->anaquel = $request->anaquel;
+        $oficio->paquete = $request->paquete;
+        $oficio->save();
     }
     public function update(Request $request)
     {
@@ -82,4 +94,18 @@ class ExpedienteArchivadoController extends Controller
         $registro->condicion='1';
         $registro->save();
     } 
+    public function generarOficio(Request $request)
+    {
+        $registro= Oficios::where('id_expediente', '=', $request->id_expediente)->firstOrFail();
+
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $fecha = $registro->created_at;
+        $dia = $fecha->format('d');
+        $year = $fecha->format('Y');
+        $mes = strtolower($meses[$fecha->format('m')-1]);
+        
+        $pdf = PDF::loadView('pdf.reporteOficio', compact('registro','dia','mes','year'));
+        // $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream();
+    }
 }

@@ -40,12 +40,12 @@
                                                 <label>Usuario:</label>&nbsp;&nbsp;
                                                 <select v-model="usuario" form="form_reporte" name="usuario">
                                                     <option value='%' selected>VER TODO</option>
-                                                    <option v-for="(lista,index) in getUsuarios" :value="lista.id">{{lista.usuario}}</option>
+                                                    <option v-for="(lista,index) in usuarios" :value="lista.id">{{lista.usuario}}</option>
                                                 </select>&nbsp;&nbsp;
                                                 <button type="submit" class="btn btn-default col-2" @click="buscarRegistro()">
                                                 <i class="fa fa-search"></i>
                                                 </button>&nbsp;
-                                                <form action="reporte/ingresos" id="form_reporte" target="_blank">
+                                                <form action="reporte/ingresos" method="get" id="form_reporte" target="_blank">
                                                 </form>
                                                 <button type="submit" class="btn btn-success col-2" v-on:click="verReporte" form="form_reporte">
                                                 <i class="fa fa-file-pdf-o"></i>
@@ -292,10 +292,10 @@
                 count++;
                 }
                 return pagesArray;
-            },
-            getUsuarios(){
-                return this.usuarios;
             }
+            // getUsuarios(){
+            //     return this.usuarios;
+            // }
         },
         methods : {
             //METODOS PARA LISTAR REGISTRO
