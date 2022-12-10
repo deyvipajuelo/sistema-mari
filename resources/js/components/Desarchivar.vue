@@ -188,7 +188,7 @@
                             <tbody v-if="arrayExpediente.length">
                                 <tr v-for="lista in arrayExpediente" :key="lista.id">
                                     <td>
-                                      <input v-if="lista.idestado==1" type="radio" :value="lista.idexpediente" v-on:click="setDatos" v-model="picked" :data-anaquel="lista.anaquel" :data-paquete="lista.paquete" :data-demandado="(lista.parteprocesal.indexOf('DDO:') < lista.parteprocesal.indexOf('DTE:')) ? lista.parteprocesal.substring(lista.parteprocesal.indexOf('DDO:', 0) + 5, lista.parteprocesal.indexOf('DTE:', 0)) : lista.parteprocesal.substring(lista.parteprocesal.indexOf('DDO:', 0) + 5)">
+                                      <input v-if="lista.idestado==1" type="radio" :value="lista.idexpediente" v-on:click="setDatos" :data-expediente="lista.expediente" :data-materia="lista.materia" v-model="picked" :data-anaquel="lista.anaquel" :data-paquete="lista.paquete" :data-demandado="(lista.parteprocesal.indexOf('DDO:') < lista.parteprocesal.indexOf('DTE:')) ? lista.parteprocesal.substring(lista.parteprocesal.indexOf('DDO:', 0) + 5, lista.parteprocesal.indexOf('DTE:', 0)) : lista.parteprocesal.substring(lista.parteprocesal.indexOf('DDO:', 0) + 5)">
                                       <input v-else type="radio" :value="lista.idexpediente"  disabled>
                                     </td>
                                     <td v-text="lista.numero_ingreso"></td>
@@ -266,12 +266,6 @@
                                 <input type="text" placeholder="Ingrese la Ref." class="form-control" v-model="ref">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 form-control-label" for="text-input">Ingreso expediente:</label>
-                            <div class="col-md-9">
-                                <input type="text" placeholder="Ingrese el expediente" class="form-control" v-model="queja">
-                            </div>
-                        </div>
                     </form>
                 </template>
                
@@ -338,7 +332,9 @@
                 queja: '',
                 demandado: '',
                 anaquel: '',
-                paquete: ''
+                paquete: '',
+                num_expediente: '',
+                materia: ''
                 
             }
         },
@@ -537,7 +533,8 @@
                     'num_oficio': 'OFICIO N° ' + this.num_oficio + '-ac-USJ-GAD-CSJAN/PJ',
                     'jefe': this.jefe,
                     'ref': this.ref,
-                    'queja': this.queja
+                    'queja': this.materia,
+                    'num_expediente': this.num_expediente
  
                 }).then(function(response){
                     me.actualizarExpediente();
@@ -551,6 +548,8 @@
                 this.anaquel = event.target.dataset.anaquel;
                 this.paquete = event.target.dataset.paquete;
                 this.demandado = event.target.dataset.demandado;
+                this.num_expediente = event.target.dataset.expediente;
+                this.materia = event.target.dataset.materia;
             },
             actualizarExpediente(){
                 let me=this;

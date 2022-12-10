@@ -82,6 +82,7 @@ class ExpedienteArchivadoController extends Controller
         $oficio->ref = $request->ref;
         $oficio->queja = $request->queja;
         $oficio->demandado = $request->demandado;
+        $oficio->num_expediente = $request->num_expediente;
         $oficio->anaquel = $request->anaquel;
         $oficio->paquete = $request->paquete;
         $oficio->save();

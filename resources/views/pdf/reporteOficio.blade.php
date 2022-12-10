@@ -18,7 +18,7 @@
             <p class="texto jefe">{{$registro->jefe}}</p>
             <p class="texto bloque-uno">Jefe (e) de la Oficina Desconcentrada de Control de la Magistratura<br>Corte Superior de Justicia de Ancash</p>
             <p class="texto ref">Ref.:	<span class="ref-contenido">{{$registro->ref}}</span></p>
-            <p class="texto bloque-dos">Tengo el honor de dirigirme a usted y saludarle cordialmente, y en atención al documento de la referencia, remitirle adjunto <span class="queja">{{$registro->queja}}</span>, proceso seguido contra el {{$registro->demandado}}, conforme ha sido solicitado por su Despacho.</p>
+            <p class="texto bloque-dos">Tengo el honor de dirigirme a usted y saludarle cordialmente, y en atención al documento de la referencia, remitirle adjunto EXP. N° <span class="queja">{{$registro->num_expediente}}</span>, proceso seguido contra {{$registro->demandado}}, por el delito de: {{$registro->queja}}, conforme ha sido solicitado por su Despacho.</p>
             <p class="texto bloque-tres">Asimismo, solicitarle muy respetuosamente tenga a bien ordenar a quien corresponda, <span class="dos-negrita">para su devolución considerar la ubicación, Anaquel: <span class="num-anaquel">{{$registro->anaquel}}</span> Paquete: <span class="num-paquete">{{$registro->paquete}}</span>.</span></p>
             <p class="texto bloque-cuatro">Hago propicia la oportunidad para expresarle las muestras de mi especial consideración y estima  personal.</p>
             <p class="texto atte">Atentamente,</p>
