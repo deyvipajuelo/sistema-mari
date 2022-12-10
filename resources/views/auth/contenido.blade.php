@@ -40,12 +40,12 @@
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
           
-          <li class="dropdown"><a href="#"><span>Servicios</span> <i class="bi bi-chevron-down"></i></a>
+          <!-- <li class="dropdown"><a href="#"><span>Servicios</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Consultas</a></li>
               
             </ul>
-          </li>
+          </li> -->
           <li class="dropdown"><a href="#"><span>Otros</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="https://www.pj.gob.pe/wps/wcm/connect/CorteSuperiorAncashPJ/s_csj_Ancash_nuevo/as_servicios/as_servicios_ciudadano/as_dir_sedes/" target="_blank">Directorio telefónico</a></li>
@@ -53,7 +53,7 @@
               
             </ul>
           </li>
-          <li><a class="nav-link scrollto" href="#myModal" class="trigger-btn" data-toggle="modal">Login</a></li>
+          <li><a class="nav-link scrollto" href="#myModal" class="trigger-btn" data-toggle="modal">Ingresar</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -94,7 +94,7 @@
                 <h3>Sistema de Gestión de Expedientes Administrativos</h3>
                 <ul>
                   <li><strong>Instancia</strong>: Archivo Central</li>
-                  <li><strong>Area</strong>: Unidad de servicios Judiciales / ODECMA</li>
+                  <!-- <li><strong>Area</strong>: Unidad de servicios Judiciales / ODECMA</li> -->
                   <li><strong>Sede Judicial</strong>: Corte Superior de Justicia de Ancash</li>
                   
                 </ul>
@@ -120,7 +120,7 @@
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/free-one-page-bootstrap-template-amoeba/ -->
-        Designed by <a href="#">Jhonatan Blas.R - jhtnblas61@gmail.com</a>
+        Designed by <a href="#">Mariluz Chinchay Huanri - mariluzchinchay87@gmail.com</a>
       </div>
     </div>
   </footer><!-- End #footer -->
@@ -161,13 +161,13 @@
                     <div class="icheck-primary">
                         <input type="checkbox" id="remember">
                         <label for="remember">
-                        Remember Me
+                        Recordar
                         </label>
                     </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary">Acceder</button>
+                        <button type="submit" class="btn btn-primary">Ingresar</button>
                     </div>
                     <!-- /.col -->
                   </div>

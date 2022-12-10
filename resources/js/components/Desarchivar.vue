@@ -47,7 +47,7 @@
                                 <th>Materia/Delito</th>
                                 <th>A</th>
                                 <th>P</th>
-                                <th>Motivo</th>
+                                <!-- <th>Motivo</th> -->
                                 <th>Estado</th>
                                 <th>Fecha</th>
                                 <th>Oficio</th>
@@ -70,9 +70,9 @@
                                 </td>
                                 <td v-text="registro.anaquel"></td>
                                 <td v-text="registro.paquete"></td>
-                                 <td ><textarea style="word-break: break-all;height: auto; resize: none;width:100%;font-size: 12px;font-family: monospace; " v-text="registro.motivo" readonly>
+                                 <!-- <td ><textarea style="word-break: break-all;height: auto; resize: none;width:100%;font-size: 12px;font-family: monospace; " v-text="registro.motivo" readonly>
                                     </textarea>
-                                </td>
+                                </td> -->
                                 
                                 <td>
                                     <span class="badge badge-danger">{{registro.estado}}</span>

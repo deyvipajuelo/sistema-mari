@@ -318,8 +318,10 @@ Route::group(['middleware'=>['auth']],function(){
         Route::put('/desarchivar/actualizar',[ExpedienteArchivadoController::class, 'update']);
         Route::get('/desarchivar/obtenerTotal', [ExpedienteArchivadoController::class, 'obtenerTotal']);
         Route::get('/reporte/getOficio', [ExpedienteArchivadoController::class, 'generarOficio']);
+        Route::get('/desarchivado/historico', [ExpedienteArchivadoController::class, 'getAllDesarchivados']);
     
     });
+    Route::get('/desarchivado/historico', [ExpedienteArchivadoController::class, 'getAllDesarchivados']);
     Route::get('/reporte/getOficio', [ExpedienteArchivadoController::class, 'generarOficio']);
     Route::put('/user/actualizarPassword',[UserController::class, 'actualizarPassword']);
             

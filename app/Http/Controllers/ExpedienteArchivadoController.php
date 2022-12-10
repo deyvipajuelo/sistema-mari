@@ -109,4 +109,9 @@ class ExpedienteArchivadoController extends Controller
         // $pdf->setPaper('A4', 'landscape');
         return $pdf->stream();
     }
+    public function getAllDesarchivados()
+    {
+        // dd(Oficios::all());
+        return Oficios::all();
+    }
 }

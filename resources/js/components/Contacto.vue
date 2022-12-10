@@ -15,17 +15,16 @@
                                 <h2>SIS<strong>GEA</strong></h2>
                                 <h5>(Sistema de Gestión de Expedientes Administrativos)</h5>
                                 <p class="lead mb-6">Desarrollado por:<br>
-                                    Jhonatan V. Blas Revelo<br>
-                                    Correo: JHTNBLAS61@GMAIL.COM<br><br>
+                                    Mariluz Chinchay Huanri<br>
+                                    Correo: mariluzchinchay87@gmail.com<br><br>
                                     En cordinacion con la(el):<br>
-                                    Abg. Janett Pineda Huayaney (Jefe de Unidad)<br>
                                     Abg. Ciro Ramírez Moreno (Responsable Archivo Central)<br><br>
                                     <b>Unidad de Servicios Judiciales</b><br>
                                     Archivo Central
                                 </p>
                                 <p class="lead mb-6">
                                     Corte Superior de Justicia de Ancash<br><br>
-                                    <b>Copyright &copy; 2021</b>, Todo los Derechos Reservados
+                                    <b>Copyright &copy; 2022</b>, Todo los Derechos Reservados
                                 </p>
                             </div>
                         </div>

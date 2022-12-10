@@ -139,7 +139,7 @@
                 
                 <li class="nav-header">Manuales</li>
                 <li  class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="http://localhost/archivocentral/sisgea/docs/MANUAL.pdf" class="nav-link" target="_blank">
                         <i class="nav-icon fa fa-file"></i>
                         <p>Manual de usuario</p>
                     </a>

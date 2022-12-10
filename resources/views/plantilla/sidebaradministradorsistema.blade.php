@@ -191,12 +191,6 @@
                                 <p>Expediente</p>
                             </a>
                         </li>
-                        <!-- <li @click="menu=33" class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-barcode nav-icon"></i>
-                                <p>Expediente Odecma</p>
-                            </a>
-                        </li> -->
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
@@ -249,7 +243,12 @@
                                 <p>Desarchivar</p>
                             </a>
                         </li>
-                        
+                        <li @click="menu=33" class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa fa-barcode nav-icon"></i>
+                                <p>Historico Desarchivado</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
@@ -300,7 +299,7 @@
                 
                 <li class="nav-header">Manuales</li>
                 <li  class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="http://localhost/archivocentral/sisgea/docs/MANUAL.pdf" class="nav-link" target="_blank">
                         <i class="nav-icon fa fa-file"></i>
                         <p>Manual de usuario</p>
                     </a>

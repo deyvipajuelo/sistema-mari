@@ -14,15 +14,15 @@
                     <template v-if="listado==1">
                     <div class="card-header">
                        
-                            <i class="fa fa-align-justify"></i> Expedientes
-                            <button type="submit" @click="registrarNuevo()" class="btn btn-success"><i class="fa fa-plus"></i> Nuevo</button>
+                            <i class="fa fa-align-justify"></i> Expedientes Desarchivados
+                            <!-- <button type="submit" @click="registrarNuevo()" class="btn btn-success"><i class="fa fa-plus"></i> Nuevo</button> -->
                        
                        
                          
                     </div>
                     <div class="card-body">
                         
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="input-group">
                                     <select class="form-control col-md-6" v-model="criterio">
@@ -49,9 +49,9 @@
                                     </template>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="card">
-                            <div class="card-header card-info">
+                            <!-- <div class="card-header card-info">
                                 <div class="form-group row">
 
                                     <label class="form-control-label" for="text-input">
@@ -75,75 +75,32 @@
                                         <input v-else class="text-right" type="checkbox" v-model="activarRegistroSoloUsuario" @change="listarConsulta(1,buscar,criterio)" disabled>
                                         Mis regitros</label>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="card-body table-responsive p-1">
                                 <table class="table table-bordered text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th>Opciones</th>
-                                            <th>Check</th>
-                                            <th>Numero Ingreso</th>
-                                            <th>Numero Expediente</th>
-                                            <th>Instancia</th>
-                                            <th>Estado</th>
-                                            <th>Condición</th>
+                                            <th>N° Expediente</th>
+                                            <th>N° Oficio</th>
+                                            <th>Materia</th>
+                                            <th>Demandado</th>
+                                            <th>Ver Oficio</th>
                                         </tr>
                                     </thead>
-                                <tbody v-if="arrayListadoFiltrado.length">
-                                                <tr v-for="(lista,index) in listarRegistroPaginated" :key="index" >
-                                                    
-                                                    <td>
-                                                        <template v-if="lista.condicion=='1' && lista.verificado=='0'" >
-                                                            <button type="button" @click="abrirActualizar(lista.id)" class="btn btn-warning btn-sm">
-                                                            <i class="fa fa-pencil"></i></button>
-                                                            
-                                                        </template>
-                                                        <template v-else>
-                                                            <button type="button" class="btn btn-secondary btn-sm" @click="verExpediente(lista.id)">
-                                                                <i class="fa fa-eye"></i>
-                                                            </button>
-                                                        </template>
-                                                        &nbsp;
-                                                        <template v-if="lista.condicion=='1' && lista.verificado=='0'">
-                                                            <button type="button" class="btn btn-danger btn-sm" @click="abrirModal('modal','anular',lista.id)">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </template>
-                                                        <template v-else-if="lista.condicion=='0' && lista.verificado=='0' ">
-                                                            <button type="button" class="btn btn-info btn-sm" @click="abrirModal('modal','restaurar',lista.id)">
-                                                                <i class="fa fa-check"></i>
-                                                            </button>
-                                                        </template>
-                                                        &nbsp;
-                                                        
-                                                    </td>
-                                                    <td>
-                                                        <template v-if="lista.condicion=='1' && lista.verificado=='0' && lista.estado_odecma=='POR EMPAQUETAR'">
-                                                            <el-checkbox v-model="lista.checked" @change="marcarFila(index)"></el-checkbox>
-                                                        </template>
-                                                    </td>
-                                                    <td v-if="lista.idingreso=='0'">Sin paquete</td>
-                                                    <td v-else>{{lista.numero_ingreso}}</td>
-                                                    <td v-text="lista.numero_expediente"></td>
-                                                    <td v-text="lista.instancia"></td>
-                                                    <td >
-                                                        <div v-if="lista.verificado=='0'">
-                                                            <span v-if="lista.estado_odecma=='EMPAQUETADO'" class="badge badge-success">{{lista.estado_odecma}}</span>
-                                                            <span v-else class="badge badge-warning">{{lista.estado_odecma}}</span>
-                                                        </div>
-                                                        <div v-else>
-                                                            <span class="badge badge-danger">ARCHIVADO</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div v-if="lista.condicion">
-                                                            <span class="badge badge-success">Activo</span>
-                                                        </div>
-                                                        <div v-else>
-                                                            <span class="badge badge-danger">Anulado</span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                <tbody v-if="arrayListado.length">
+                                            <tr v-for="lista in arrayListado" :key="lista.id" >
+                                                <td v-text="lista.num_expediente"></td>
+                                                <td v-text="lista.numero_oficio"></td>
+                                                <td v-text="lista.queja"></td>
+                                                <td v-text="lista.demandado"></td>
+                                                
+                                                <td>
+                                                    <form action="reporte/getOficio" id="form_reporte_oficio" target="_blank">
+                                                        <input type="hidden" :value="lista.id_expediente" name="id_expediente"></input>
+                                                    </form>
+                                                    <button class="btn btn-success"><i class="fa fa-download" type="submit" form="form_reporte_oficio" v-on:click="verOficio"></i></button>
+                                                </td>
+                                            </tr>
                                     </tbody>
                                     <tbody v-else>
                                         <tr>
@@ -1586,6 +1543,10 @@ import VueBarcode from 'vue-barcode';
         nextPage(){
             this.pageNumber++;
         },
+        verOficio(event){
+            let formulario = event.target.closest("td").firstElementChild;
+            formulario.submit();
+        },
         prevPage(){
             this.pageNumber--;
         },
@@ -1600,14 +1561,14 @@ import VueBarcode from 'vue-barcode';
                 this.arrayListadoFiltrado.length=0;
                 if(this.activarFiltroFecha){
                     if(this.activarRegistroSoloUsuario){
-                        var url=me.ruta + '/expediente/expedienteConFiltro?page=' + page+'&buscar='+buscar+'&criterio='+criterio+'&fecha1='+this.filtroFecha1+'&fecha2='+this.filtroFecha2+'&miRegistro='+1;
+                        // var url=me.ruta + '/expediente/expedienteConFiltro?page=' + page+'&buscar='+buscar+'&criterio='+criterio+'&fecha1='+this.filtroFecha1+'&fecha2='+this.filtroFecha2+'&miRegistro='+1;
+                        var url=me.ruta + '/desarchivado/historico';
                         axios.get(url).then(function (response) {
                             var respuesta=response.data;
                             me.inicializarPaginacion();
-                            //console.log(respuesta);
                             me.arrayListado = respuesta;
                             //console.log(me.arrayListado);
-                            me.listarConsultaFiltrado();
+                            // me.listarConsultaFiltrado();
                             //me.pagination=respuesta.pagination;
                         })
                         .catch(function (error) {
@@ -1654,34 +1615,35 @@ import VueBarcode from 'vue-barcode';
             let me=this;
             me.arrayListado.map(function(x,y){
             me.arrayListadoFiltrado.push({
-                'id': x.id,
-                'anaquel': x.anaquel,
-                'codigo': x.codigo,
-                'condicion': x.condicion,
-                'estado_odecma': x.estado_odecma,
-                'fecha_conclusion': x.fecha_conclusion,
-                'fecha_recepcion': x.fecha_recepcion,
-                'fecha_registro': x.fecha_registro,
-                'idespecialidad': x.idespecialidad,
-                'idestado': x.idestado,
-                'idingreso': x.idingreso,
-                'idlocal': x.idlocal,
-                'idtarchivo': x.idtarchivo,
-                'idtconclucion': x.idtconclucion,
-                'idtexpediente': x.idtexpediente,
-                'idusuario': x.idusuario,
-                'instancia': x.instancia,
-                'numero_cuaderno': x.numero_cuaderno,
-                'numero_expediente': x.numero_expediente,
-                'numero_folio': x.numero_folio,
-                'numero_ingreso': x.numero_ingreso,
-                'numero_origen': x.numero_origen,
-                'observacion': x.observacion,
-                'paquete': x.paquete,
-                'responsable': x.responsable,
-                'usuario': x.usuario,
-                'verificado': x.verificado,
-                'checked': false
+                'materia':  'hola'
+                // 'id': x.id,
+                // 'anaquel': x.anaquel,
+                // 'codigo': x.codigo,
+                // 'condicion': x.condicion,
+                // 'estado_odecma': x.estado_odecma,
+                // 'fecha_conclusion': x.fecha_conclusion,
+                // 'fecha_recepcion': x.fecha_recepcion,
+                // 'fecha_registro': x.fecha_registro,
+                // 'idespecialidad': x.idespecialidad,
+                // 'idestado': x.idestado,
+                // 'idingreso': x.idingreso,
+                // 'idlocal': x.idlocal,
+                // 'idtarchivo': x.idtarchivo,
+                // 'idtconclucion': x.idtconclucion,
+                // 'idtexpediente': x.idtexpediente,
+                // 'idusuario': x.idusuario,
+                // 'instancia': x.instancia,
+                // 'numero_cuaderno': x.numero_cuaderno,
+                // 'numero_expediente': x.numero_expediente,
+                // 'numero_folio': x.numero_folio,
+                // 'numero_ingreso': x.numero_ingreso,
+                // 'numero_origen': x.numero_origen,
+                // 'observacion': x.observacion,
+                // 'paquete': x.paquete,
+                // 'responsable': x.responsable,
+                // 'usuario': x.usuario,
+                // 'verificado': x.verificado,
+                // 'checked': false
             });
             });
         },
